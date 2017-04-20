@@ -1,33 +1,18 @@
 <template>
-  <div class='todos row'>
-    <div class='col-xs-12'>
-      <div class='form-inline'>
-        <input type="text" 
-               v-model="newTodo.name">
-        <button v-on:click="createTodo">Add</button>
-      </div>
-    </div>
-
-    <div class='col-xs-12'>
-      <ul id='todos'>
-        <todo v-for="todo in todos" 
-              v-bind:key='todo'
-              v-bind:todo='todo'
-              v-on:deleteTodo='deleteTodo' 
-              v-on:toggleDone='toggleDone'>
-        </todo>
-      </ul>
-    </div>
-  </div>
+  <li v-bind:class="{ done: todo.isDone }">
+    {{ todo.name }}
+    <button v-on:click="deleteTodo(todo)">Delete</button>
+    <button v-on:click="toggleDone(todo)">
+      <span v-if="todo.isDone">Undo</span>
+      <span v-else>Done</span>
+    </button>
+  </li>
 </template>
 
 <script>
-import Todo from '@/components/todos/Todo'
-
 export default {
-  name: 'todos',
-  components: { Todo },
-  props: ['todos', 'newTodo'],
+  name: 'todo',
+  props: ['todo'],
   methods: {
     createTodo () {
       this.$emit('createTodo', this.newTodo)
@@ -37,6 +22,7 @@ export default {
     },
     toggleDone (todo) {
       this.$emit('toggleDone', todo)
+
       // Do not do the following...
       // todo.isDone = !todo.isDone // Easily make changes here, because todo is not a prop
       // this.todos = [] // Manipulating props directly from child is not allowed

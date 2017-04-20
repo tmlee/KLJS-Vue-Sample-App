@@ -2,21 +2,17 @@
   <div class='todos row'>
     <div class='col-xs-12'>
       <div class='form-inline'>
-        <input type="text" v-model="newTodo.name" class='form-control'>
-        <button v-on:click="createTodo" class='btn btn-primary'>Add</button>
+        <input type="text" v-model="newTodo.name">
+        <button v-on:click="createTodo">Add</button>
       </div>
     </div>
 
     <div class='col-xs-12'>
       <ul id='todos'>
-        <li v-for="todo in todos" v-bind:class="{ done: todo.isDone }">
-          {{ todo.name }}
-          <button v-on:click="deleteTodo(todo)" class='btn btn-xs btn-danger'>Delete</button>
-          <button v-on:click="markDone(todo)" class='btn btn-xs btn-default'>
-            <span v-if="todo.isDone">Undo</span>
-            <span v-else>Done</span>
-          </button>
-        </li>
+        <todo v-for="todo in todos" 
+              v-bind:todo='todo' 
+              v-bind:key='todo'>
+        </todo>
       </ul>
     </div>
   </div>
@@ -24,9 +20,11 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import Todo from '@/components/todos_vuex/Todo'
 
 export default {
   name: 'todos',
+  components: {Todo},
   data () {
     return {
       newTodo: {}
@@ -41,27 +39,13 @@ export default {
     createTodo: function (e) {
       e.preventDefault()
       this.$store.dispatch('CREATE_TODO', { t: { name: this.newTodo.name, isDone: false } })
-    },
-    deleteTodo: function (todo) {
-      this.$store.dispatch('DELETE_TODO', { t: todo })
-    },
-    markDone: function (todo) {
-      this.$store.dispatch('TOGGLE_TODO_DONE', { t: todo })
     }
   }
 }
 </script>
 
 <style scoped>
-  .done{
-    text-decoration: line-through;
-  }
-
   #todos{
     padding: 20px;
-  }
-
-  #todos li {
-    margin: 10px;
   }
 </style>

@@ -2,17 +2,20 @@
   <div class='todos row'>
     <div class='col-xs-12'>
       <div class='form-inline'>
-        <input type="text" v-model="newTodo.name" class='form-control'>
-        <button v-on:click="createTodo" class='btn btn-primary'>Add</button>
+        <input type="text" 
+               v-model="newTodo.name">
+        <button v-on:click="createTodo">Add</button>
       </div>
     </div>
 
     <div class='col-xs-12'>
       <ul id='todos'>
-        <li v-for="todo in todos" v-bind:class="{ done: todo.isDone }">
+        <li v-for="todo in todos" 
+            v-bind:class="{ done: todo.isDone }"
+        >
           {{ todo.name }}
-          <button v-on:click="deleteTodo(todo)" class='btn btn-xs btn-danger'>Delete</button>
-          <button v-on:click="markDone(todo)" class='btn btn-xs btn-default'>
+          <button v-on:click="deleteTodo(todo)">Delete</button>
+          <button v-on:click="markDone(todo)">
             <span v-if="todo.isDone">Undo</span>
             <span v-else>Done</span>
           </button>
